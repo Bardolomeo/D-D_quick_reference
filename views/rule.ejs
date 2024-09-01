@@ -1,0 +1,21 @@
+<%- include("partials/header.ejs") %>
+<form><input id="home" type="submit" formaction="/" formmethod="get" value="Home"></form>
+<%if (!locals.rule) {%>
+	<h1>An error has occurred...</h1>
+<%} else {%>
+	<%-rule%>
+<%}%>
+<script>
+	function checkResize(){
+		if (window.screen.availWidth < 721)
+		{	
+			document.getElementById('home').value = '';
+		}
+		else{
+			document.getElementById('home').value = 'Home';
+		}
+	}
+	checkResize();
+	window.addEventListener('resize', checkResize);
+</script>
+<%- include("partials/footer.ejs") %>

@@ -1,0 +1,23 @@
+<%- include("partials/header.ejs") %>
+
+<%if (locals.rules) {%>
+	<h1>Quick Reference for D&D Rules</h1>
+	<div id="animation-wizard">
+		<img style="position: relative; z-index: -1; bottom: 2px; box-shadow: 2px 2px black;" src="../images/frame.png" alt="">
+	</div>
+	<ul class="ul-index">
+		<%rules.forEach(element => {%>
+			<li class="index-li">
+			<span class="home-span">
+				<form action="/rule" method="post">
+					<input type="hidden" value="<%= element.url%>" name="url">
+					<input type = "submit" value="<%= element.name%>">
+				</form>
+			</span>
+			</li>
+		<%});
+	} else {%>
+		<h3>An error has occurred...</h3>
+	</ul>
+<%}%>
+<%- include("partials/footer.ejs") %>
