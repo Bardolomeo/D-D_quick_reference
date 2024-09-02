@@ -31,7 +31,6 @@ app.get('/', async (req, res) => {
 app.post("/rule", async (req, res) => {
 	try{
 		const abilityUrl = req.body["url"];
-		console.log("https://www.dnd5eapi.co" + abilityUrl);
 		var response = await axios.get("https://www.dnd5eapi.co" + abilityUrl , myHeaders);
 		var result = converter.makeHtml(response.data.desc);
 		res.render("rule.ejs", {rule : result});
