@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
 import showdown from "showdown";
+import serverless from 'serverless-http';
 import { dirname } from 'path';
 import { fileURLToPath } from "url"; 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -42,3 +43,4 @@ app.post("/rule", async (req, res) => {
 app.listen(port, () => {
 	console.log("listening on port " + port);
 })
+
