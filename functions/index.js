@@ -5,7 +5,6 @@ import showdown from "showdown";
 import serverless from 'serverless-http';
 import { dirname } from 'path';
 import { fileURLToPath } from "url";
-import ServerlessHttp from "serverless-http";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
@@ -46,8 +45,9 @@ router.post("/rule", async (req, res) => {
 /*app.listen(port, () => {
 	console.log("listening on port " + port);
 })*/
+app.use(bodyParser.json());
+app.use('/.netlify/functions/app', router);  // path must route to lambda
+app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 
-
-app.use("/app/", router);
-
-export const handler = serverless(api);
+module.exports = app;
+module.exports.handler = serverless(app);
