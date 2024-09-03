@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Router} from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
 import showdown from "showdown";
@@ -9,6 +9,8 @@ import ServerlessHttp from "serverless-http";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
+const router = Router(); 
+
 const port = 3000;
 const myHeaders = new Headers();
 showdown.setOption('tables', true);
@@ -19,7 +21,7 @@ myHeaders.append("Accept", "application/json");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
 	try{
 		var response = await axios.get("https://www.dnd5eapi.co/api/rule-sections", myHeaders);
 		var result = response.data.results;
@@ -30,7 +32,7 @@ app.get('/', async (req, res) => {
 	}
 })
 
-app.post("/rule", async (req, res) => {
+router.post("/rule", async (req, res) => {
 	try{
 		const abilityUrl = req.body["url"];
 		var response = await axios.get("https://www.dnd5eapi.co" + abilityUrl , myHeaders);
@@ -41,14 +43,11 @@ app.post("/rule", async (req, res) => {
 	}
 })
 
-app.listen(port, () => {
+/*app.listen(port, () => {
 	console.log("listening on port " + port);
-})
+})*/
 
 
-const handler = ServerlessHttp(app);
+app.use("/app/", router);
 
-module.exports.handler = async (context) => {
-	const result = await handler(context);
-	return result;
-} 
+export const handler = serverless(api);
